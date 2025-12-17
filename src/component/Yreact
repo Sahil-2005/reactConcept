@@ -1,0 +1,84 @@
+import React, { useState, useEffect, useRef, Fragment } from "react";
+import axios from "axios";
+
+/*
+  PROPS USED:
+  - title (string)
+*/
+
+function Yreact({ title }) {
+  // STATE
+  const [count, setCount] = useState(0);
+  const [users, setUsers] = useState([]);
+  const [showUsers, setShowUsers] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  // REF
+  const headingRef = useRef(null);
+
+  // SIDE EFFECT (ComponentDidMount equivalent)
+  useEffect(() => {
+    headingRef.current.style.color = "teal";
+  }, []);
+
+  // API CALL USING AXIOS
+  const fetchUsers = async () => {
+    setLoading(true);
+    const response = await axios.get(
+      "https://jsonplaceholder.typicode.com/users"
+    );
+    setUsers(response.data);
+    setLoading(false);
+    setShowUsers(true);
+  };
+
+  // EVENT HANDLERS
+  const increment = () => {
+    // CALLBACK STATE UPDATE
+    setCount(prevCount => prevCount + 1);
+  };
+
+  const decrement = () => {
+    setCount(prevCount => prevCount - 1);
+  };
+
+  return (
+    <Fragment>
+      {/* JSX COMMENT */}
+      <h1 ref={headingRef}>{title}</h1>
+
+      {/* INLINE STYLING */}
+      <p style={{ fontSize: "18px", fontWeight: "bold" }}>
+        Counter Value: {count}
+      </p>
+
+      {/* EVENTS */}
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement} style={{ marginLeft: "10px" }}>
+        Decrement
+      </button>
+
+      <br /><br />
+
+      {/* CONDITIONAL RENDERING */}
+      {!showUsers && (
+        <button onClick={fetchUsers}>Load Users</button>
+      )}
+
+      {loading && <p>Loading users...</p>}
+
+      {/* LIST RENDERING WITH KEY */}
+      {showUsers && !loading && (
+        <ul>
+          {users.map(user => (
+            <li key={user.id}>
+              {user.name} ({user.email})
+            </li>
+          ))}
+        </ul>
+      )}
+    </Fragment>
+  );
+}
+
+export default Yreact;
