@@ -4,6 +4,7 @@ import React, {
   useRef,
   Fragment
 } from "react";
+import Yreact from "./Yreact";
 
 // ===============================
 // FUNCTIONAL COMPONENT (Preferred in Modern React)
@@ -52,8 +53,9 @@ function App() {
   const skills = ["HTML", "CSS", "JavaScript", "React"];
 
   return (
+    
     <Fragment>
-
+       <Yreact title="React Concepts" />
       <h1>Practice File</h1>
 
       <Greeting title="Welcome to React Practice" />
